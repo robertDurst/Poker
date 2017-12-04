@@ -17,11 +17,21 @@ io.on('connection', function (socket) {
     console.log(data);
   });
 
-  socket.on('some other event', function (data) {
-    //GS update
-    //Join
-    //Leave
-    //Message
+  //GS update
+  //Join Game
+  //Leave Game
+  //Message (of preset)
+  socket.on('update', function (data) {
+    socket.broadcast('updata', data)
+  })
+  socket.on('joinGame', function (data) {
+    socket.broadcast('playerJoin')
+  })
+  socket.on('leaveGame', function (data) {
+    socket.broadcast('playerExit')
+  })
+  socket.on('message', function (data) {
+    socket.broadcast('message',data)
   })
 });
 
