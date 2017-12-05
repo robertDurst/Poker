@@ -6,12 +6,18 @@ class Game extends React.Component {
   }
   render() {
     return (
-    <div>
-      <h1>Game</h1>
-      <Link to='/' >Landing </Link>
-      <Link to='/Lobby'>Lobby  </Link>
-
-    </div>)
+    <div className="GameRoomPage__container--overall">
+      <div className="GameRoomPage__container--header">
+        <h1>Game</h1>
+      </div>
+      <div className="GameRoomPage__container--body">
+        <Link to='/' >Landing </Link>
+        <Link to='/Lobby'>Lobby  </Link>
+      </div>
+      <div className="GameRoomPage__container--footer">
+      </div>
+    </div>
+  )
   }
 }
 

@@ -1,0 +1,67 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+.LobbyPage__container--overall {
+  background-color: #4CAF50;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.LobbyPage__container--header {
+  flex: 1;
+  background-color: yellow;
+}
+.LobbyPage__container--body {
+  flex:10;
+  background-color: pink;
+}
+.LobbyPage__container--footer {
+  flex: 1;
+  background-color: red;
+}
+
+.LandingPage__container--overall {
+  background-color: #4CAF50;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.LandingPage__container--header {
+  flex: 1;
+  background-color: yellow;
+}
+.LandingPage__container--body {
+  flex:10;
+  background-color: pink;
+}
+.LandingPage__container--footer {
+  flex: 1;
+  background-color: red;
+}
+
+.GameRoomPage__container--overall {
+  background-color: #4CAF50;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.GameRoomPage__container--header {
+  flex: 1;
+  background-color: yellow;
+}
+.GameRoomPage__container--body {
+  flex:10;
+  background-color: pink;
+}
+.GameRoomPage__container--footer {
+  flex: 1;
+  background-color: red;
+}
