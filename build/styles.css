@@ -1,7 +1,9 @@
 * {
   padding: 0;
   margin: 0;
+
 }
+
 html, body, #root {
   height: 100%;
   width: 100%;
@@ -35,15 +37,34 @@ html, body, #root {
 }
 .LandingPage__container--header {
   flex: 1;
-  background-color: yellow;
 }
 .LandingPage__container--body {
   flex:10;
-  background-color: pink;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
+.LandingPage__title_container {
+  flex: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.LandingPage__title {
+  font-size: 100pt;
+  font-family: "Poker Font";
+  font-weight: lighter;
+}
+.LandingPage__connect_button_container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .LandingPage__container--footer {
   flex: 1;
-  background-color: red;
 }
 
 .GameRoomPage__container--overall {
@@ -64,4 +85,9 @@ html, body, #root {
 .GameRoomPage__container--footer {
   flex: 1;
   background-color: red;
+}
+
+@font-face {
+font-family: "Poker Font";
+src: url("../public/CoffeeTin Initials.ttf");
 }
