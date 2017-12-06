@@ -1,5 +1,6 @@
 const React = require('react')
 const {Link} = require('react-router-dom');
+const axios = require('axios');
 import {
   Table,
   TableBody,
@@ -32,6 +33,17 @@ class Lobby extends React.Component {
     }
 
     return playerArray;
+  }
+
+  componentDidMount() {
+    setInterval(()=>{
+      axios.get('https://secure-depths-49472.herokuapp.com/games')
+      .then( x => this.setState({
+        hostedGames: x.data
+      }))
+      .catch( err => console.log(err))
+    }, 1000)
+
   }
 
   colorGenerator(gameName) {
@@ -101,7 +113,7 @@ class Lobby extends React.Component {
        >
         {
           this.state.hostedGames.map( (x,i) => {
-            const c = this.colorGenerator(x.roomName);
+            const c = this.colorGenerator(x.game_name);
             return (
               <TableRow
                 key={i}
@@ -119,7 +131,7 @@ class Lobby extends React.Component {
                     alignItems: 'center',
                     fontSize: 14
                   }}
-                  >{x.gameRoomNum}
+                  >{'NEED'}
                 </TableRowColumn>
                 <TableRowColumn
                   style={{
@@ -128,7 +140,7 @@ class Lobby extends React.Component {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}
-                  >{x.condition}</TableRowColumn>
+                  >{'NEED'}</TableRowColumn>
                 <TableRowColumn
                   style={{
                     flex: 5,
@@ -139,7 +151,7 @@ class Lobby extends React.Component {
                   >
                 <div className="LobbyPage__player_container">
                   {
-                  this.playerContainer(x.players).map( (x,i) => {
+                  this.playerContainer(x.activePlayers).map( (x,i) => {
                     return x ? <Person key={i}/> : <Person2 key={i}/>
                   })
                 }
@@ -152,7 +164,7 @@ class Lobby extends React.Component {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}
-                  >{x.roomName}</TableRowColumn>
+                  >{x.game_name}</TableRowColumn>
               </TableRow>
             )
           })
