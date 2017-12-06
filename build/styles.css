@@ -17,15 +17,55 @@ html, body, #root {
 }
 .LobbyPage__container--header {
   flex: 1;
-  background-color: yellow;
+  background-color: black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 10px;
+}
+.LobbyPage__username_top {
+  color: white;
+  flex: 10;
+  text-align: center;
+}
+.LobbyPage__balance_top {
+  margin-right: 5px;
+  color: white;
+  flex: 1;
+}
+.LobbyPage__hostbutton_top {
+  flex: 1;
 }
 .LobbyPage__container--body {
   flex:10;
-  background-color: pink;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.LobbyPage__gamehost_table_container {
+  flex: 7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.LobbyPage__body_footer_container {
+  flex: 2;
+}
+.LobbyPage__gamehost_table {
+  width: 75%;
+  height: 500px;
+}
+.LobbyPage__player_container {
+  display: flex;
+}
+.LobbyPage__body_footer_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .LobbyPage__container--footer {
   flex: 1;
-  background-color: red;
 }
 
 .LandingPage__container--overall {
@@ -62,7 +102,6 @@ html, body, #root {
   justify-content: center;
   align-items: center;
 }
-
 .LandingPage__container--footer {
   flex: 1;
 }
