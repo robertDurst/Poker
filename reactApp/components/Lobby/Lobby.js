@@ -2,6 +2,7 @@ const React = require('react')
 const {Link} = require('react-router-dom');
 import GameRoomTable from './GameRoomTable';
 import { RaisedButton } from 'material-ui';
+import startHost from '../../backend/gameHost/GameHostConnect';
 
 class Lobby extends React.Component {
   constructor(props) {
@@ -10,7 +11,8 @@ class Lobby extends React.Component {
       currentUser: {
         username: '',
         balance: ''
-      }
+      },
+      hosting: false
     }
   }
   render() {
@@ -19,7 +21,21 @@ class Lobby extends React.Component {
         <div className="LobbyPage__container--header">
           <div className="LobbyPage__hostbutton_top">
             <RaisedButton
-              label="Host"
+              label= {this.state.hosting ? "Disconnect" : "Host"}
+              onClick={() => {
+                if(this.state.hosting) {
+                  startHost.disconnect()
+                  this.setState({
+                    hosting: false
+                  })
+                } else {
+                  startHost.connect()
+                  this.setState({
+                    hosting: true
+                  })
+                }
+
+              }}
             />
             <Link to='/game'> Game</Link>
           </div>
