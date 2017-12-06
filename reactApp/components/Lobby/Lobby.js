@@ -21,6 +21,7 @@ class Lobby extends React.Component {
             <RaisedButton
               label="Host"
             />
+            <Link to='/game'> Game</Link>
           </div>
           <h1 className="LobbyPage__username_top"> Welcome {this.state.currentUser.username}</h1>
           <p className="LobbyPage__balance_top">Bank Account: {this.state.currentUser.balance} BTC</p>

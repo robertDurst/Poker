@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { RaisedButton } from 'material-ui';
-
+import styles from './Landing.css'
 
 class Landing extends React.Component {
   constructor(props) {
