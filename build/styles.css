@@ -47,7 +47,7 @@ html, body, #root {
 }
 
 .GameRoomPage__container--overall {
-  background-color: #4CAF50;
+  background-color: black;
   height: 100%;
   width: 100%;
   display: flex;
@@ -56,10 +56,73 @@ html, body, #root {
 .GameRoomPage__container--header {
   flex: 1;
   background-color: yellow;
+  display: flex;
+  color: white;
+  align-self: center;
+
+}
+.GameRoomPage__container--header--item {
+  background-color: black;
+  height: auto;
+  padding: 25px 45px;
+  font-size: 22px;
+}
+.GameRoomPage__container--header--item:hover {
+  background-color: grey;
 }
 .GameRoomPage__container--body {
   flex:10;
   background-color: pink;
+  display:lock;
+}
+.GameRoomPage__container--body-top {
+  width: 100vw;
+  height: 60%;
+  background-color: dodgerBlue;
+  display: flex;
+  /*flex-direction: column;*/
+}
+.GameRoomPage__Table--overall {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.GameRoomPage__Table--player-bar {
+  flex: 1;
+  background-color: lightBlue;
+  width: 100%;
+  display: flex;
+}
+.GameRoomPage__Player {
+  flex: 1;
+  height: auto;
+}
+.GameRoomPage__Table--table {
+  flex: 5;
+  display: flex;
+  width: 100%;
+  background-color: darkGreen;
+}
+.GameRoomPage__Table--table-top {
+  background-color: green;
+  display: flex;
+  width: 80vw;
+  margin: 0 10vw;
+}
+.GameRoomPage__Card {
+  flex: 1;
+}
+
+.GameRoomPage__container--body-bottom {
+  width: 100vw;
+  height: 40%;
+  display: flex;
+}
+.GameRoomPage__Hand--overall {
+  display: flex;
+}
+.GameRoomPage__info-item {
+  flex:1;
 }
 .GameRoomPage__container--footer {
   flex: 1;
