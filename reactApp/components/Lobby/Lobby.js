@@ -1,6 +1,7 @@
 const React = require('react')
 const {Link} = require('react-router-dom');
 const axios = require('axios');
+const io = require('socket.io-client');
 
 import GameRoomTable from './GameRoomTable';
 import { RaisedButton } from 'material-ui';
@@ -24,15 +25,16 @@ class Lobby extends React.Component {
       hostedGames: [],
       curGame: {},
     }
+    this.timer = null;
   }
 
-       handleStartHost() {
-             startHost.connect(this.state.gameName)
-             this.setState({
-               open: false,
-               hosting: true
-             })
-       }
+   handleStartHost() {
+         startHost.connect(this.state.gameName)
+         this.setState({
+           open: false,
+           hosting: true
+         })
+   }
 
    handleInputGameName(e) {
      this.setState({gameName: e.target.value})
@@ -45,6 +47,17 @@ class Lobby extends React.Component {
      })
    }
 
+   handleGameHostConnect(){
+     this.setState({
+       open_game: false
+     })
+
+     window.location.hash = '/game'
+
+     let socket = io(this.state.curGame.external_ip);
+     console.log(socket);
+   }
+
    componentDidMount() {
      this.timer = setInterval(()=>{
        axios.get('https://secure-depths-49472.herokuapp.com/games')
@@ -54,6 +67,10 @@ class Lobby extends React.Component {
        .catch( err => console.log(err))
      }, 1000)
 
+   }
+
+   componentWillUnmount() {
+     clearInterval(this.timer)
    }
 
    handleClick() {
@@ -116,6 +133,7 @@ class Lobby extends React.Component {
       <GameRoomDetailsPopup
         open={this.state.open_game}
         handleClose={this.handleClose.bind(this)}
+        handleGameHostConnect={this.handleGameHostConnect.bind(this)}
         game={this.state.curGame}
       />
     </div>

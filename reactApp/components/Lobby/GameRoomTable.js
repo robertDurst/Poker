@@ -17,7 +17,6 @@ import Person2 from 'material-ui/svg-icons/social/person-outline'
 class Lobby extends React.Component {
   constructor(props) {
     super(props)
-    this.timer = null;
   }
 
   // Used for displaying the number of players in a game
@@ -39,11 +38,6 @@ class Lobby extends React.Component {
   determineGameState(gameData) {
     if(gameData.activePlayers === 8) return 'FULL';
     return 'OPEN'
-  }
-
-
-  componentWillUnmount() {
-    clearInterval(this.timer)
   }
 
   colorGenerator(gameName) {
