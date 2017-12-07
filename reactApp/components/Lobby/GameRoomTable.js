@@ -23,6 +23,7 @@ class Lobby extends React.Component {
     }
   }
 
+  // Used for displaying the number of players in a game
   playerContainer(numPlayers) {
     let playerArray = [];
     for (var i = 0; i < 8; i ++) {
@@ -35,6 +36,12 @@ class Lobby extends React.Component {
     }
 
     return playerArray;
+  }
+
+  // Used for displaying the state of the game room
+  determineGameState(gameData) {
+    if(gameData.activePlayers === 8) return 'FULL';
+    return 'OPEN'
   }
 
   componentDidMount() {
