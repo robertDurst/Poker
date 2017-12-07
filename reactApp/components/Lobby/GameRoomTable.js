@@ -1,6 +1,6 @@
 const React = require('react')
 const {Link} = require('react-router-dom');
-const axios = require('axios');
+
 import {
   Table,
   TableBody,
@@ -18,9 +18,6 @@ class Lobby extends React.Component {
   constructor(props) {
     super(props)
     this.timer = null;
-    this.state = {
-      hostedGames: [],
-    }
   }
 
   // Used for displaying the number of players in a game
@@ -44,16 +41,7 @@ class Lobby extends React.Component {
     return 'OPEN'
   }
 
-  componentDidMount() {
-    this.timer = setInterval(()=>{
-      axios.get('https://secure-depths-49472.herokuapp.com/games')
-      .then( x => this.setState({
-        hostedGames: x.data
-      }))
-      .catch( err => console.log(err))
-    }, 1000)
 
-  }
   componentWillUnmount() {
     clearInterval(this.timer)
   }
@@ -70,6 +58,7 @@ class Lobby extends React.Component {
   render() {
     return (
       <Table
+        onCellClick={this.props.handleGameHostClick.bind(this)}
         style={{
           width: '100%',
           height: '500px'
@@ -110,7 +99,7 @@ class Lobby extends React.Component {
        displayRowCheckbox={false}
        >
         {
-          this.state.hostedGames.map( (x,i) => {
+          this.props.hostedGames.map( (x,i) => {
             const c = this.colorGenerator(x.game_name);
             return (
               <TableRow
@@ -126,13 +115,13 @@ class Lobby extends React.Component {
                     flex: 1,
                     fontSize: 14
                   }, styles.cell)}
-                  >{'NEED'}
+                  >{x._id.slice(0,6)}
                 </TableRowColumn>
                 <TableRowColumn
                   style={Object.assign({},{
                     flex: 1,
                   }, styles.cell)}
-                  >{'NEED'}</TableRowColumn>
+                  >{this.determineGameState(x)}</TableRowColumn>
                 <TableRowColumn
                   style={Object.assign({},{
                     flex: 5,
