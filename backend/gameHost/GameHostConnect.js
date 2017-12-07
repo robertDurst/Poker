@@ -1,36 +1,32 @@
 const ioClient = require('socket.io-client');
 var ip = require("ip");
-const publicIp = require('public-ip');
 var localtunnel = require('localtunnel');
-
-
-
+var hostServer = require('./server');
 
 const host_socket = ioClient("https://secure-depths-49472.herokuapp.com/");
 let hosting = false;
 let serverUrl;
 
-
+var tunnel = localtunnel(9090, function(err, tunnel) {
+  serverUrl = tunnel.url
+});
 
 function disconnect() {
   hosting = false;
+  tunnel.close();
+  hostServer.closeServer();
 }
 
-function connect() {
+function connect(gameName) {
   hosting = true;
+  hostServer.startServer();
 
-
-  let serverUrl;
-  var tunnel = localtunnel(3000, function(err, tunnel) {
-    host_socket.emit('HOST_CONNECT', {
-      internal_ip: ip.address(),
-      game_name: 'What up',
-      external_ip: tunnel.url,
-      activePlayers: 0,
-    })
-  });
-
-
+  host_socket.emit('HOST_CONNECT', {
+    internal_ip: ip.address(),
+    game_name: gameName,
+    external_ip: serverUrl,
+    activePlayers: 1,
+  })
 }
 
 
