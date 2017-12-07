@@ -1,5 +1,6 @@
-const React = require('react')
-const {Link} = require('react-router-dom');
+import React from 'react'
+import {Link} from 'react-router-dom'
+import styles from './Gameroom.css'
 //Components
 import RaisedButton from 'material-ui/RaisedButton';
 
@@ -9,7 +10,7 @@ class ChoiceBox extends React.Component {
   }
   render() {
     return (
-    <div className="GameRoomPage__Table--overall">
+    <div className={styles.choice_box_overall}>
       ChoiceBox
       <RaisedButton label="Call" primary={true}  />
       <RaisedButton label="Bet" primary={true} />
