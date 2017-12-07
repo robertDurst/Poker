@@ -4,9 +4,9 @@ import {Provider} from 'react-redux';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-const Landing = require('../components/Landing.js')
-const Lobby = require('../components//Lobby.js')
-const Gameroom = require('../components//Gameroom.js')
+const Landing = require('../components/Landing/Landing.js')
+const Lobby = require('../components/Lobby/Lobby.js')
+const Gameroom = require('../components/Gameroom/Gameroom.js')
 
 export default function Root({ store, history }) {
     return (

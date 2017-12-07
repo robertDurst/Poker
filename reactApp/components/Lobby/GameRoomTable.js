@@ -13,9 +13,11 @@ import Person from 'material-ui/svg-icons/social/person'
 import Person2 from 'material-ui/svg-icons/social/person-outline'
 
 
+
 class Lobby extends React.Component {
   constructor(props) {
     super(props)
+    this.timer = null;
     this.state = {
       hostedGames: [],
     }
@@ -43,7 +45,7 @@ class Lobby extends React.Component {
   }
 
   componentDidMount() {
-    setInterval(()=>{
+    this.timer = setInterval(()=>{
       axios.get('https://secure-depths-49472.herokuapp.com/games')
       .then( x => this.setState({
         hostedGames: x.data
@@ -51,6 +53,9 @@ class Lobby extends React.Component {
       .catch( err => console.log(err))
     }, 1000)
 
+  }
+  componentWillUnmount() {
+    clearInterval(this.timer)
   }
 
   colorGenerator(gameName) {
@@ -75,43 +80,29 @@ class Lobby extends React.Component {
        adjustForCheckbox={false}
        >
        <TableRow
-         style={{
-           display: 'flex',
-           justifyContent: 'center',
-           alignItems: 'center',
-         }}
+         style={styles.cell}
          >
          <TableHeaderColumn
-           style={{
-             flex: 1,
-             display: 'flex',
-             justifyContent: 'center',
-             alignItems: 'center',
-           }}
-           >Room Id</TableHeaderColumn>
+           style={Object.assign({},
+             styles.cell,
+             {flex: 1}
+           )}
+           >Room No.</TableHeaderColumn>
          <TableHeaderColumn
-           style={{
-             flex: 1,
-             display: 'flex',
-             justifyContent: 'center',
-             alignItems: 'center',
-           }}
+           style={Object.assign({},
+             styles.cell,
+             {flex: 1})}
            >Condition</TableHeaderColumn>
          <TableHeaderColumn
-           style={{
-             flex: 5,
-             display: 'flex',
-             justifyContent: 'center',
-             alignItems: 'center',
-           }}
+           style={Object.assign({},
+             styles.cell,
+             {flex: 5}
+           )}
            >Players</TableHeaderColumn>
          <TableHeaderColumn
-           style={{
-             flex: 3,
-             display: 'flex',
-             justifyContent: 'center',
-             alignItems: 'center',
-           }}
+           style={Object.assign({},
+             {flex: 3,},
+             styles.cell)}
            >Room Name</TableHeaderColumn>
        </TableRow>
      </TableHeader>
@@ -131,30 +122,21 @@ class Lobby extends React.Component {
                 >
 
                 <TableRowColumn
-                  style={{
+                  style={Object.assign({},{
                     flex: 1,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
                     fontSize: 14
-                  }}
-                  >{x._id.slice(0,5)}
+                  }, styles.cell)}
+                  >{'NEED'}
                 </TableRowColumn>
                 <TableRowColumn
-                  style={{
+                  style={Object.assign({},{
                     flex: 1,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                  >{this.determineGameState(x)}</TableRowColumn>
+                  }, styles.cell)}
+                  >{'NEED'}</TableRowColumn>
                 <TableRowColumn
-                  style={{
+                  style={Object.assign({},{
                     flex: 5,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
+                  },styles.cell)}
                   >
                 <div className="LobbyPage__player_container">
                   {
@@ -165,12 +147,9 @@ class Lobby extends React.Component {
               </div>
               </TableRowColumn>
                 <TableRowColumn
-                  style={{
+                  style={Object.assign({},{
                     flex: 3,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
+                  },styles.cell)}
                   >{x.game_name}</TableRowColumn>
               </TableRow>
             )
@@ -182,5 +161,11 @@ class Lobby extends React.Component {
   )
   }
 }
-
+const styles = {
+  cell: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
+}
 module.exports = Lobby
