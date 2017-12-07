@@ -13,6 +13,8 @@ var tunnel = localtunnel(9090, function(err, tunnel) {
 
 function disconnect() {
   hosting = false;
+  tunnel.close();
+  hostServer.closeServer();
 }
 
 function connect(gameName) {
