@@ -1,18 +1,18 @@
 import React from 'react';
 import { Dialog, TextField, FlatButton } from 'material-ui';
 
-export default ({open, handleClose, game}) => {
+export default ({open, handleClose, handleGameHostConnect, game}) => {
   const actions_connect = [
     <FlatButton
       label={'Cancel'}
       primary={true}
       onClick={handleClose.bind(this)}
     />,
-    // <FlatButton
-    //   label={'Connect'}
-    //   primary={true}
-    //   onClick={handleStartHost.bind(this)}
-    // />
+    <FlatButton
+      label={'Connect'}
+      primary={true}
+      onClick={handleGameHostConnect.bind(this)}
+    />
   ];
 
   return (
