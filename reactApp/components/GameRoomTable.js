@@ -21,6 +21,7 @@ class Lobby extends React.Component {
     }
   }
 
+  // Used for displaying the number of players in a game
   playerContainer(numPlayers) {
     let playerArray = [];
     for (var i = 0; i < 8; i ++) {
@@ -33,6 +34,12 @@ class Lobby extends React.Component {
     }
 
     return playerArray;
+  }
+
+  // Used for displaying the state of the game room
+  determineGameState(gameData) {
+    if(gameData.activePlayers === 8) return 'FULL';
+    return 'OPEN'
   }
 
   componentDidMount() {
@@ -81,7 +88,7 @@ class Lobby extends React.Component {
              justifyContent: 'center',
              alignItems: 'center',
            }}
-           >Room No.</TableHeaderColumn>
+           >Room Id</TableHeaderColumn>
          <TableHeaderColumn
            style={{
              flex: 1,
@@ -131,7 +138,7 @@ class Lobby extends React.Component {
                     alignItems: 'center',
                     fontSize: 14
                   }}
-                  >{'NEED'}
+                  >{x._id.slice(0,5)}
                 </TableRowColumn>
                 <TableRowColumn
                   style={{
@@ -140,7 +147,7 @@ class Lobby extends React.Component {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}
-                  >{'NEED'}</TableRowColumn>
+                  >{this.determineGameState(x)}</TableRowColumn>
                 <TableRowColumn
                   style={{
                     flex: 5,

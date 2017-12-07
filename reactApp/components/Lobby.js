@@ -3,6 +3,7 @@ const {Link} = require('react-router-dom');
 import GameRoomTable from './GameRoomTable';
 import { RaisedButton } from 'material-ui';
 import startHost from '../../backend/gameHost/GameHostConnect';
+import StartHostPopup from './StartHostPopup';
 
 class Lobby extends React.Component {
   constructor(props) {
@@ -12,9 +13,45 @@ class Lobby extends React.Component {
         username: '',
         balance: ''
       },
-      hosting: false
+      hosting: false,
+      open: false,
+      gameName: '',
     }
   }
+
+
+      handleStartHost() {
+            startHost.connect(this.state.gameName)
+            this.setState({
+              open: false,
+              hosting: true
+            })
+      }
+
+  handleInputGameName(e) {
+    this.setState({gameName: e.target.value})
+  }
+
+  handleClick() {
+   if(this.state.hosting) {
+     startHost.disconnect()
+     this.setState({
+       hosting: false
+     })
+   } else {
+     this.setState({
+       open: true,
+     })
+    }
+  }
+
+  handleClose() {
+   this.setState({
+     open: false,
+   });
+  }
+
+
   render() {
     return (
     <div className="LobbyPage__container--overall">
@@ -22,20 +59,7 @@ class Lobby extends React.Component {
           <div className="LobbyPage__hostbutton_top">
             <RaisedButton
               label= {this.state.hosting ? "Disconnect" : "Host"}
-              onClick={() => {
-                if(this.state.hosting) {
-                  startHost.disconnect()
-                  this.setState({
-                    hosting: false
-                  })
-                } else {
-                  startHost.connect()
-                  this.setState({
-                    hosting: true
-                  })
-                }
-
-              }}
+              onClick={this.handleClick.bind(this)}
             />
           </div>
           <h1 className="LobbyPage__username_top"> Welcome {this.state.currentUser.username}</h1>
@@ -55,6 +79,12 @@ class Lobby extends React.Component {
           </div>
         </div>
         <div className="LobbyPage__container--footer"></div>
+      <StartHostPopup
+        open={this.state.open}
+        handleStartHost={this.handleStartHost.bind(this)}
+        handleClose={this.handleClose.bind(this)}
+        handleInputGameName={this.handleInputGameName.bind(this)}
+      />
     </div>
   )
   }
