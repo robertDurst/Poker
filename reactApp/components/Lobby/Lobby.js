@@ -2,7 +2,8 @@ const React = require('react')
 const {Link} = require('react-router-dom');
 import GameRoomTable from './GameRoomTable';
 import { RaisedButton } from 'material-ui';
-import startHost from '../../backend/gameHost/GameHostConnect';
+import startHost from '../../../backend/gameHost/GameHostConnect';
+import styles from './Lobby.css'
 
 class Lobby extends React.Component {
   constructor(props) {
@@ -17,9 +18,9 @@ class Lobby extends React.Component {
   }
   render() {
     return (
-    <div className="LobbyPage__container--overall">
-        <div className="LobbyPage__container--header">
-          <div className="LobbyPage__hostbutton_top">
+    <div className={styles.container_overall}>
+        <div className={styles.container_header}>
+          <div className={styles.hostbutton_top}>
             <RaisedButton
               label= {this.state.hosting ? "Disconnect" : "Host"}
               onClick={() => {
@@ -39,23 +40,23 @@ class Lobby extends React.Component {
             />
             <Link to='/game'> Game</Link>
           </div>
-          <h1 className="LobbyPage__username_top"> Welcome {this.state.currentUser.username}</h1>
-          <p className="LobbyPage__balance_top">Bank Account: {this.state.currentUser.balance} BTC</p>
+          <h1 className={styles.username_top}> Welcome {this.state.currentUser.username}</h1>
+          <p className={styles.balance_top}>Bank Account: {this.state.currentUser.balance} BTC</p>
         </div>
-        <div className="LobbyPage__container--body">
-          <div className="LobbyPage__gamehost_table_container">
-            <div className="LobbyPage__gamehost_table">
+        <div className={styles.container_body}>
+          <div className={styles.gamehost_table_container}>
+            <div className={styles.gamehost_table}>
               <GameRoomTable />
             </div>
 
           </div>
-          <div className="LobbyPage__body_footer_container">
+          <div className={styles.body_footer_container}>
             <RaisedButton
               label="Direct Game Connection"
             />
           </div>
         </div>
-        <div className="LobbyPage__container--footer"></div>
+        <div className={styles.container_footer}></div>
     </div>
   )
   }

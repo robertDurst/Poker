@@ -1,7 +1,8 @@
-const React = require('react')
-const {Link} = require('react-router-dom');
+import React from 'react'
+import {Link} from 'react-router-dom'
+import styles from './Gameroom.css'
 //Components
-const Card = require('./Card.js');
+import Card from './Card.js';
 
 class Hand extends React.Component {
   constructor(props) {
@@ -9,7 +10,7 @@ class Hand extends React.Component {
   }
   render() {
     return (
-    <div className="GameRoomPage__Hand--overall">
+    <div className={styles.Hand_overall}>
       Hand
       <Card
         card="7D"

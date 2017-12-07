@@ -1,4 +1,6 @@
-const  React = require("react");
+import React from "react";
+import styles from './Card.css'
+
 
 class Card extends React.Component {
   shouldComponentUpdate(nextProps) {
@@ -16,7 +18,7 @@ class Card extends React.Component {
     const { index, card, size, faceDown, rotationY } = this.props;
 
     return (
-      <div id="card" className="GameRoomPage__Card">
+      <div id="card" className={styles.Card}>
         <img
           className={faceDown === true ? "back" : "front"}
           src={`cards/${card}.svg`}

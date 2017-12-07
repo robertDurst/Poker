@@ -1,22 +1,12 @@
-* {
-  padding: 0;
-  margin: 0;
 
-}
-
-html, body, #root {
-  height: 100%;
-  width: 100%;
-}
-/*
-.GameRoomPage__container--overall {
+.container_overall {
   background-color: black;
   height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
 }
-.GameRoomPage__container--header {
+.container_header {
   flex: 1;
   background-color: yellow;
   display: flex;
@@ -24,75 +14,69 @@ html, body, #root {
   align-self: center;
 
 }
-.GameRoomPage__container--header--item {
+.container_header_item {
   background-color: black;
   height: auto;
   padding: 25px 45px;
   font-size: 22px;
 }
-.GameRoomPage__container--header--item:hover {
+.container_header_item:hover {
   background-color: grey;
 }
-.GameRoomPage__container--body {
+.container_body {
   flex:10;
   background-color: pink;
   display:lock;
 }
-.GameRoomPage__container--body-top {
+.container_body_top {
   width: 100vw;
   height: 60%;
   background-color: dodgerBlue;
   display: flex;
   /*flex-direction: column;*/
-
-/*.GameRoomPage__Table--overall {
+}
+.choice_box_overall {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
-.GameRoomPage__Table--player-bar {
+/*.
+.Table_player_bar {
   flex: 1;
   background-color: lightBlue;
   width: 100%;
   display: flex;
 }
-.GameRoomPage__Player {
-  flex: 1;
-  height: auto;
-}
-.GameRoomPage__Table--table {
+.Table_table {
   flex: 5;
   display: flex;
   width: 100%;
   background-color: darkGreen;
 }
-.GameRoomPage__Table--table-top {
+.Table_table_top {
   background-color: green;
   display: flex;
   width: 80vw;
   margin: 0 10vw;
-}
-.GameRoomPage__Card {
+}*/
+/*.Player {
   flex: 1;
-}
+  height: auto;
+}*/
 
-.GameRoomPage__container--body-bottom {
+
+.container_body_bottom {
   width: 100vw;
   height: 40%;
   display: flex;
 }
-.GameRoomPage__Hand--overall {
+.Hand_overall {
   display: flex;
 }
-.GameRoomPage__info-item {
+.info_item {
   flex:1;
 }
-.GameRoomPage__container--footer {
+.container_footer {
   flex: 1;
   background-color: red;
-}*/
-
-@font-face {
-font-family: "Poker Font";
-src: url("../public/CoffeeTin Initials.ttf");
 }

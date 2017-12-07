@@ -21,13 +21,15 @@ module.exports = {
       },
       {
        test: /\.css/,
-       loaders: ExtractTextPlugin.extract('css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]')
+       loader: ExtractTextPlugin.extract({
+          use: "css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]"
+        })
      }
     ]
   },
   plugins: [
-    new ExtractTextPlugin("styles2.css")
-  ]
+    new ExtractTextPlugin("webpack_styles.css")
+  ],
   stats: {
     colors: true
   },

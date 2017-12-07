@@ -1,8 +1,10 @@
-const React = require('react')
-const {Link} = require('react-router-dom');
+import React from 'react'
+import {Link} from 'react-router-dom'
 //Components
-const Card = require('./Card.js');
-const Player = require('./Player.js');
+import Card from './Card.js'
+import Player from './Player.js'
+
+import styles from './Table.css'
 
 
 class Table extends React.Component {
@@ -12,14 +14,14 @@ class Table extends React.Component {
 
   render() {
     return (
-    <div className="GameRoomPage__Table--overall">
-      <div className="GameRoomPage__Table--player-bar" >
+    <div className={styles.Table_overall}>
+      <div className={styles.Table_player_bar}>
         <Player title="King" name="Poker" />
         <Player title="Duke" name="Ashbury" />
         <Player title="Mr." name="Pickle" />
       </div>
-      <div className="GameRoomPage__Table--table" >
-        <div className="GameRoomPage__Table--table-top" >
+      <div className={styles.Table_table}>
+        <div className={styles.Table_table_top}>
           Table Top
           <Card
             card="7C"

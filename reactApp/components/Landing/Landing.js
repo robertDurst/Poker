@@ -16,15 +16,14 @@ class Landing extends React.Component {
   render() {
     const { x, y } = this.state;
     return (
-    <div className="LandingPage__container--overall" onMouseMove={this._onMouseMove.bind(this)}>
-      <div className="LandingPage__container--header">
-
+    <div className={styles.container} onMouseMove={this._onMouseMove.bind(this)}>
+      <div className={styles.container_header}>
       </div>
-      <div className="LandingPage__container--body">
-          <div className="LandingPage__title_container">
-            <h1 className="LandingPage__title" style={{fontSize: y/5}}>Poker Game</h1>
+      <div className={styles.container_body}>
+          <div className={styles.title_container}>
+            <h1 className={styles.title} style={{fontSize: y/5}}>Poker Game</h1>
           </div>
-          <div className="LandingPage__connect_button_container">
+          <div className={styles.connect_button_container}>
             <Link to='/lobby' >
               <RaisedButton
                 label="Connect"
@@ -34,7 +33,7 @@ class Landing extends React.Component {
 
 
       </div>
-      <div className="LandingPage__container--footer">
+      <div className={styles.container_footer}>
       </div>
     </div>
   )

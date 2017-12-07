@@ -1,10 +1,12 @@
-const React = require('react')
-const {Link} = require('react-router-dom');
+import React from 'react'
+import {Link} from 'react-router-dom';
 //Components
-const Table = require('./Table.js');
-const Pot = require('./Pot.js');
-const Hand = require('./Hand.js');
-const ChoiceBox = require('./ChoiceBox.js');
+import Table from './Table.js';
+import Pot from './Pot.js';
+import Hand from './Hand.js';
+import ChoiceBox from './ChoiceBox.js';
+//styles
+import styles from './Gameroom.css'
 
 class Game extends React.Component {
   constructor(props) {
@@ -12,31 +14,31 @@ class Game extends React.Component {
   }
   render() {
     return (
-    <div className="GameRoomPage__container--overall">
-      <div className="GameRoomPage__container--header">
-        <div className="GameRoomPage__container--header--item">Game</div>
-        <div className="GameRoomPage__container--header--item">Messages</div>
-        <div className="GameRoomPage__container--header--item">Options</div>
-        <div className="GameRoomPage__container--header--item">About</div>
-        <Link to='/Lobby'><div className="GameRoomPage__container--header--item">Leave Game</div></Link>
+    <div className={styles.container_overall}>
+      <div className={styles.container_header}>
+        <div className={styles.container_header_item}>Game</div>
+        <div className={styles.container_header_item}>Messages</div>
+        <div className={styles.container_header_item}>Options</div>
+        <div className={styles.container_header_item}>About</div>
+        <Link to='/Lobby'><div className={styles.container_header_item}>Leave Game</div></Link>
       </div>
-      <div className="GameRoomPage__container--body">
-        <div className="GameRoomPage__container--body-top">
+      <div className={styles.container_body}>
+        <div className={styles.container_body_top}>
           <Table />
         </div>
-        <div className="GameRoomPage__container--body-bottom">
-          <div className="GameRoomPage__info-item">
+        <div className={styles.container_body_bottom}>
+          <div className={styles.info_item}>
             <Pot />
           </div>
-          <div className="GameRoomPage__info-item">
+          <div className={styles.info_item}>
             <Hand />
           </div>
-          <div className="GameRoomPage__info-item">
+          <div className={styles.info_item}>
             <ChoiceBox />
           </div>
         </div>
       </div>
-      <div className="GameRoomPage__container--footer">
+      <div className={styles.container_footer}>
       </div>
     </div>
   )

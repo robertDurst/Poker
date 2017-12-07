@@ -1,37 +1,37 @@
-.LandingPage__container--overall {
+.container {
   background-color: #4CAF50;
   height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
 }
-.LandingPage__container--header {
+.container_header {
   flex: 1;
 }
-.LandingPage__container--body {
+.container_body {
   flex:10;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
-.LandingPage__title_container {
+.title_container {
   flex: 5;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.LandingPage__title {
+.title {
   font-size: 100pt;
   font-family: "Poker Font";
   font-weight: lighter;
 }
-.LandingPage__connect_button_container {
+.connect_button_container {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.LandingPage__container--footer {
+.container--footer {
   flex: 1;
 }

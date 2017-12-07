@@ -1,5 +1,6 @@
 const React = require('react')
 const {Link} = require('react-router-dom');
+import styles from './Gameroom.css'
 //Components
 
 
@@ -9,7 +10,7 @@ class Pot extends React.Component {
   }
   render() {
     return (
-    <div className="GameRoomPage__Table--overall">
+    <div className={styles.choice_box_overall}>
       <h1>
         Pot
       </h1>
