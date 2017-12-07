@@ -1,10 +1,13 @@
 const React = require('react')
 const {Link} = require('react-router-dom');
+const axios = require('axios');
+
 import GameRoomTable from './GameRoomTable';
 import { RaisedButton } from 'material-ui';
 import startHost from '../../../backend/gameHost/GameHostConnect';
 import styles from './Lobby.css'
-import StartHostPopup from '../StartHostPopup';
+import StartHostPopup from './StartHostPopup';
+import GameRoomDetailsPopup from './GameRoomDetailsPopup';
 
 class Lobby extends React.Component {
   constructor(props) {
@@ -16,7 +19,10 @@ class Lobby extends React.Component {
       },
       hosting: false,
       open: false,
+      open_game: false,
       gameName: '',
+      hostedGames: [],
+      curGame: {},
     }
   }
 
@@ -30,6 +36,24 @@ class Lobby extends React.Component {
 
    handleInputGameName(e) {
      this.setState({gameName: e.target.value})
+   }
+
+   handleGameHostClick(gameIndex){
+     this.setState({
+       open_game: true,
+       curGame: this.state.hostedGames[gameIndex],
+     })
+   }
+
+   componentDidMount() {
+     this.timer = setInterval(()=>{
+       axios.get('https://secure-depths-49472.herokuapp.com/games')
+       .then( x => this.setState({
+         hostedGames: x.data
+       }))
+       .catch( err => console.log(err))
+     }, 1000)
+
    }
 
    handleClick() {
@@ -48,6 +72,8 @@ class Lobby extends React.Component {
    handleClose() {
     this.setState({
       open: false,
+      open_game: false,
+      curGame: {},
     });
    }
   render() {
@@ -67,7 +93,10 @@ class Lobby extends React.Component {
         <div className={styles.container_body}>
           <div className={styles.gamehost_table_container}>
             <div className={styles.gamehost_table}>
-              <GameRoomTable />
+              <GameRoomTable
+                handleGameHostClick={this.handleGameHostClick.bind(this)}
+                hostedGames={this.state.hostedGames}
+              />
             </div>
 
           </div>
@@ -83,6 +112,11 @@ class Lobby extends React.Component {
         handleStartHost={this.handleStartHost.bind(this)}
         handleClose={this.handleClose.bind(this)}
         handleInputGameName={this.handleInputGameName.bind(this)}
+      />
+      <GameRoomDetailsPopup
+        open={this.state.open_game}
+        handleClose={this.handleClose.bind(this)}
+        game={this.state.curGame}
       />
     </div>
   )
