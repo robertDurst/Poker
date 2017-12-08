@@ -13,20 +13,27 @@ class Table extends React.Component {
   }
 
   cardTranslator(value, suite) {
-    console.log(value, suite);
     let retStr = ""
     switch(value) {
       case 1:
-        return 'A' + suite.split("").slice(0,1);
+        retStr = 'A';
+        break;
       case 11:
-        return 'J' + suite.split("").slice(0,1);
+        retStr = 'J';
+        break;
       case 12:
-        return 'Q' + suite.split("").slice(0,1);
+        retStr = 'Q';
+        break;
       case 13:
-        return 'K' + suite.split("").slice(0,1);
+        retStr = 'K';
+        break;
       default:
-        return value + suite.split("").slice(0,1);
+        retStr = value.toString();
     }
+
+    retStr = retStr + suite[0];
+    console.log(retStr);
+    return retStr;
   }
 
   render() {
@@ -44,9 +51,7 @@ class Table extends React.Component {
         <div className={styles.Table_table_top}>
           {
             this.props.gameState.spread ? this.props.gameState.spread.map( x => {
-              var thing = this.cardTranslator=(x.value, x.suite)
-              console.log("THEHEHE",thing);
-              // return <Card  card=)} />
+              return <Card  card={this.cardTranslator(x.value, x.suite)} />
             }) : <div></div>
           }
         </div>
