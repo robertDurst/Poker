@@ -8,9 +8,20 @@ class ChoiceBox extends React.Component {
   constructor(props) {
     super(props)
   }
+  handleStart() {
+    this.props.socket.emit('START_GAME', this.props.gameState)
+  }
   handleReady() {
-    this.props.socket.emit('READY', 'BUTTON MSG')
-    console.log('READY SENT BY BUTTON');
+    this.props.socket.emit('READY', this.props.gameState)
+  }
+  handleCall() {
+    this.props.socket.emit('CALL', this.props.gameState)
+  }
+  handleBet() {
+    this.props.socket.emit('BET', this.props.gameState)
+  }
+  handleFold() {
+    this.props.socket.emit('FOLD', this.props.gameState)
   }
   render() {
     return (
@@ -19,7 +30,8 @@ class ChoiceBox extends React.Component {
       <RaisedButton label="Call" primary={true}  />
       <RaisedButton label="Bet" primary={true} />
       <RaisedButton label="Fold" primary={true} />
-      <RaisedButton label="Ready Up" onClick={() => {this.handleReady()}} />
+      <RaisedButton label="Sit Down" onClick={() => {this.handleReady()}} />
+      <RaisedButton label="Start Game" onClick={() => {this.handleStart()}} />
     </div>
   )
   }
