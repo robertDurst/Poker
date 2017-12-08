@@ -13,9 +13,7 @@ class Game extends React.Component {
   constructor(props) {
     super(props)
   }
-  componentDidMount() {
 
-  }
   render() {
     return (
     <div className={styles.container_overall}>
