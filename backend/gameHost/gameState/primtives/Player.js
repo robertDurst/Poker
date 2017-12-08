@@ -1,8 +1,8 @@
 module.exports = class Person {
-  constructor(publicKey) { //, socket) {
+  constructor(publicKey, socket) { //, socket) {
     this.pubKey = publicKey;
     this.hand = [];
     this.isDealer = false;
-    // this.socketId = socket.id;
+    this.socketId = socket.id;
   }
 }

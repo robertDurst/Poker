@@ -12,6 +12,7 @@ module.exports = class Game {
     this.players = [];
     this.dealer = undefined;
 
+    this.isFolded = gameAction.isFolded;
     this.addCardToSpread = gameAction.addCardToSpread;
     this.getPotValue = gameAction.getPotValue;
     this.incrementState = gameAction.incrementState;

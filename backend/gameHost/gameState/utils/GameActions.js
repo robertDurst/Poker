@@ -89,7 +89,7 @@ function addPlayer(publicKey, socket) {
 
   const player = this.players.filter(x => x.pubKey === publicKey);
   if (!(player.length)) {
-    this.players.push(new Player(publicKey)) //, socket));
+    this.players.push(new Player(publicKey, socket)) //, socket));
   } else {
     player[0].socketId = socket.id;
   }
@@ -119,7 +119,7 @@ function newDealer() {
 }
 
 module.exports = {
-  // isFolded
+  isFolded,
   addCardToSpread,
   getPotValue,
   incrementState,
