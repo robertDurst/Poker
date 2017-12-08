@@ -31,9 +31,13 @@ class Table extends React.Component {
         retStr = value.toString();
     }
 
+<<<<<<< HEAD
     retStr = retStr + suite[0];
     // console.log(retStr);
     return retStr;
+=======
+    return retStr + suite[0];
+>>>>>>> 5125960b30a9a7ac95a3cd9450ca67d9d21e8e88
   }
 
   render() {

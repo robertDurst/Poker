@@ -15,9 +15,7 @@ class Game extends React.Component {
     super(props)
     console.log('gamestate',this.props);
   }
-  componentDidMount() {
 
-  }
   render() {
     return (
     <div className={styles.container_overall}>
