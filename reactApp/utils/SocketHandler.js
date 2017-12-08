@@ -7,4 +7,8 @@ export default (socket) => {
     store.dispatch(gameUpdate(game))
   })
 
+  socket.on('LOG', (data) => {
+    console.log('HOST LOG:',data);
+  })
+
 }
