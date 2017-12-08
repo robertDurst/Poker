@@ -6,12 +6,14 @@ import Table from './Table.js';
 import Pot from './Pot.js';
 import Hand from './Hand.js';
 import ChoiceBox from './ChoiceBox.js';
+
 //styles
 import styles from './Gameroom.css'
 
 class Game extends React.Component {
   constructor(props) {
     super(props)
+    console.log('gamestate',this.props);
   }
 
   render() {
@@ -30,13 +32,13 @@ class Game extends React.Component {
         </div>
         <div className={styles.container_body_bottom}>
           <div className={styles.info_item}>
-            <Pot gameState={this.props.gameState}/>
+            <Pot gameState={this.props.gameState} />
           </div>
           <div className={styles.info_item}>
             <Hand gameState={this.props.gameState}/>
           </div>
           <div className={styles.info_item}>
-            <ChoiceBox />
+            <ChoiceBox gameState={this.props.gameState} socket={this.props.socket}/>
           </div>
         </div>
       </div>
@@ -56,6 +58,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     gameState: state.gameState,
+    socket: state.socket,
   }
 };
 

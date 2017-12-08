@@ -8,6 +8,10 @@ class ChoiceBox extends React.Component {
   constructor(props) {
     super(props)
   }
+  handleReady() {
+    this.props.socket.emit('READY', 'BUTTON MSG')
+    console.log('READY SENT BY BUTTON');
+  }
   render() {
     return (
     <div className={styles.choice_box_overall}>
@@ -15,6 +19,7 @@ class ChoiceBox extends React.Component {
       <RaisedButton label="Call" primary={true}  />
       <RaisedButton label="Bet" primary={true} />
       <RaisedButton label="Fold" primary={true} />
+      <RaisedButton label="Ready Up" onClick={() => {this.handleReady()}} />
     </div>
   )
   }

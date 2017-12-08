@@ -55,8 +55,8 @@ class Lobby extends React.Component {
      })
 
      window.location.hash = '/game'
-
-     this.props.socketConnectionMade(io(this.state.curGame.external_ip));
+     const socket = io(this.state.curGame.external_ip)
+     this.props.socketConnectionMade(socket);
    }
 
    componentDidMount() {
