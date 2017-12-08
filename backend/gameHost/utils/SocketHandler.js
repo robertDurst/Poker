@@ -5,15 +5,71 @@ let SocketHandler = (io, game) => {
   io.on('connection', (socket) => {
     game.gameState.addPlayer('Player '+counter, socket)
     counter ++;
-    io.emit("GAME_UPDATE", game.gameState);
+    sendUpdate();
   });
+
+  function sendUpdate() {
+    Object.keys(io.sockets.sockets).forEach( id => {
+       const totalState = game.gameState;
+       let customState = {
+         pot: totalState.pot,
+         spread: totalState.spread,
+         state: totalState.state,
+         folded: totalState.folded,
+         winner: totalState.winner,
+         dealer: totalState.dealer,
+         players: totalState.players.map( x => x.pubKey),
+         player_hand: totalState.players.filter( x => id === x.socketId )
+       };
+      io.sockets.sockets[id].emit("GAME_UPDATE", customState);
+    })
+  }
 
   playGame();
 
 
   function nextState() {
     game.gameState.incrementState();
-    io.emit("GAME_UPDATE", game.gameState);
+    sendUpdate();
+    playGame();
+  }
+
+  function bettingRound(startIndex) {
+    let curIndex = startIndex;
+    let endIndex = startIndex
+    let waitingFlag = false;
+    let game = game.gameState;
+
+    do {
+      if(!waitingFlag) {
+        if( !game.isFolded(game.players[curIndex]) && game.players[curIndex].length) {
+          socket.emit('LOG');
+          waitingFlag = true;
+        } else {
+          curIndex = (endIndex + 1) % game.players.length;
+        }
+      }
+    } while(curIndex !== endIndex)
+
+    socket.on('Call', (data) => {
+      game.makeBet(game.players[curIndex], amount)
+      curIndex = (endIndex + 1) % game.players.length;
+      waitingFlag = false;
+    })
+
+    socket.on('Bet', (amount) => {
+      endIndex = curIndex;
+      game.makeBet(game.players[curIndex], amount)
+      curIndex = (endIndex + 1) % game.players.length;
+      waitingFlag = false;
+    })
+
+    socket.on('Fold', (data) => {
+      game.addFolded(game.players[curIndex])
+      curIndex = (endIndex + 1) % game.players.length;
+      waitingFlag = false;
+    })
+
     playGame();
   }
 
@@ -25,8 +81,9 @@ let SocketHandler = (io, game) => {
         // If there are at least two players in the game, start a game in 10 seconds
         if(game.gameState.players.length >= 1 && !countdown) {
           countdown = setTimeout( () => {
+            game.gameState.newDealer;
             game.gameState.incrementState();
-            io.emit("GAME_UPDATE", game.gameState);
+            sendUpdate();
             countdown = null;
             playGame();
           }, 3000 );
@@ -67,7 +124,7 @@ let SocketHandler = (io, game) => {
         countdown = setTimeout( () => {
           game.gameState.addCardToSpread(game.gameState.deck.cards.pop());
           game.gameState.incrementState();
-          io.emit("GAME_UPDATE", game.gameState);
+          sendUpdate();
           countdown = null;
           playGame();
         }, 3000 );
@@ -83,7 +140,7 @@ let SocketHandler = (io, game) => {
         countdown = setTimeout( () => {
           game.gameState.addCardToSpread(game.gameState.deck.cards.pop());
           game.gameState.incrementState();
-          io.emit("GAME_UPDATE", game.gameState);
+          sendUpdate();
           countdown = null;
           playGame();
         }, 3000 );
@@ -96,18 +153,23 @@ let SocketHandler = (io, game) => {
 
       // Card reveal
       case 9:
+        let hands = game.gameState.players.map( x => x.hand)
+        hands = hands.filter( x => !!x.length )
+        hands = hands.map( x => x.concat(game.gameState.spread));
+        const winnerArr = game.getWinner(hands);
+        game.gameState.winner = winnerArr;
         nextState()
         break;
 
       // Funds allocated
       case 10:
         countdown = setTimeout( () => {
-          game.gameState.spread = [];
+          game.gameState.reset
           game.gameState.incrementState();
-          io.emit("GAME_UPDATE", game.gameState);
+          sendUpdate();
           countdown = null;
           playGame();
-        }, 3000 );
+        }, 10000 );
         break;
     }
 
