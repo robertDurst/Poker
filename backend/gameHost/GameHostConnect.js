@@ -1,32 +1,35 @@
 const ioClient = require('socket.io-client');
 var ip = require("ip");
-var localtunnel = require('localtunnel');
 var hostServer = require('./server');
+var axios = require('axios');
+var ngrok = require('../../ngrok/index');
 
 const host_socket = ioClient("https://secure-depths-49472.herokuapp.com/");
 let hosting = false;
 let serverUrl;
+let ngrokInstance;
 
-var tunnel = localtunnel(9090, function(err, tunnel) {
-  serverUrl = tunnel.url
-});
+
 
 function disconnect() {
   hosting = false;
-  tunnel.close();
+  ngrok.kill();
   hostServer.closeServer();
 }
 
-function connect(gameName) {
+async function connect(gameName) {
   hosting = true;
-  hostServer.startServer();
-
-  host_socket.emit('HOST_CONNECT', {
-    internal_ip: ip.address(),
-    game_name: gameName,
-    external_ip: serverUrl,
-    activePlayers: 1,
-  })
+  let game = hostServer.startServer();
+  ngrok.kill();
+  ngrok.connect(9090, function (err, url) {
+    console.log(err);
+    host_socket.emit('HOST_CONNECT', {
+      internal_ip: ip.address(),
+      game_name: gameName,
+      external_ip: url,
+      activePlayers: game.gameState.players.length,
+    })
+  });
 }
 
 
