@@ -3,12 +3,39 @@ let SocketHandler = (io, game) => {
   let counter = 0;
 
   io.on('connection', (socket) => {
-    game.gameState.addPlayer('Player '+counter, socket)
-    counter ++;
     io.emit("GAME_UPDATE", game.gameState);
+
+
+
+    socket.on('READY', (stuff) => {
+      counter ++;
+      game.gameState.addPlayer('Player '+counter, socket)
+      io.emit('GAME_UPDATE',game.gameState)
+    })
+    socket.on('START_GAME', (data) => {
+      nextState()
+      io.emit('GAME_UPDATE',game.gameState)
+    })
+
+    socket.on('CALL', (data) => {
+      
+      io.emit('GAME_UPDATE',game.gameState)
+    })
+
+    socket.on('BET', (data) => {
+      game.makeBet(data.pid, data.amount)
+      io.emit('GAME_UPDATE',game.gameState)
+    })
+
+    socket.on('FOLD', (data) => {
+      game.addFolded(data.pid)
+      io.emit('GAME_UPDATE',game.gameState)
+    })
+
+
   });
 
-  playGame();
+  // playGame();
 
 
   function nextState() {
@@ -22,7 +49,9 @@ let SocketHandler = (io, game) => {
     switch( game.gameState.state ) {
       // A sort of limbo where the host waits for at least two players
       case 0:
-        // If there are at least two players in the game, start a game in 10 seconds
+        //Wait for all ready or Force start
+
+        // // If there are at least two players in the game, start a game in 10 seconds
         if(game.gameState.players.length >= 1 && !countdown) {
           countdown = setTimeout( () => {
             game.gameState.incrementState();
