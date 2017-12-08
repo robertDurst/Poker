@@ -1,15 +1,15 @@
 const http = require('http');
 const socketIO = require('socket.io');
-let gameState = require('./gameState/GameState');
+const SocketHandler = require('./utils/SocketHandler');
+let game = require('../gameHost/gameState/GameState');
 
 let server;
 let io;
-let connections = 0;
 
 function startServer() {
   server = http.createServer(function (req, res) {
     res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end('Number connected: ' + connections);
+    res.end('Welcome to Poker!');
   }).listen(9090, "127.0.0.1");
 
    io = require('socket.io')(server, {
@@ -17,14 +17,12 @@ function startServer() {
       wsEngine: 'ws'
     });
 
-    io.on('connection', (socket) => {
-      connections ++;
-      socket.emit("GAME_UPDATE", gameState);
-    });
+    SocketHandler(io, game);
+
+    return game;
 }
 
 function closeServer() {
-  console.log(server);
   server.close( (data) => {
     console.log("CLOSED", data);
   });

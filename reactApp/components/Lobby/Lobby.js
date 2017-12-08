@@ -103,7 +103,6 @@ class Lobby extends React.Component {
               label= {this.state.hosting ? "Disconnect" : "Host"}
               onClick={this.handleClick.bind(this)}
             />
-            <Link to='/game'> Game</Link>
           </div>
           <h1 className={styles.username_top}> Welcome {this.state.currentUser.username}</h1>
           <p className={styles.balance_top}>Bank Account: {this.state.currentUser.balance} BTC</p>
