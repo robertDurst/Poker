@@ -91,7 +91,7 @@ function addPlayer(publicKey, socket) {
   if (!(player.length)) {
     this.players.push(new Player(publicKey)) //, socket));
   } else {
-    // player[0].socketId = socket.id;
+    player[0].socketId = socket.id;
   }
 }
 
