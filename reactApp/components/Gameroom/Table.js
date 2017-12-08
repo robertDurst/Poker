@@ -31,13 +31,10 @@ class Table extends React.Component {
         retStr = value.toString();
     }
 
-    retStr = retStr + suite[0];
-    console.log(retStr);
-    return retStr;
+    return retStr + suite[0];
   }
 
   render() {
-    console.log("HERE", this.props.gameState.spread);
     return (
     <div className={styles.Table_overall}>
       <div className={styles.Table_player_bar}>
