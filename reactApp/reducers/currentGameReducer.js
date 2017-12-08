@@ -1,4 +1,4 @@
-function rootReducer(state = {}, action) {
+function currentGameReducer(state = {}, action) {
     switch (action.type) {
        case 'GAME_UPDATE':
            return action.game;
@@ -7,4 +7,4 @@ function rootReducer(state = {}, action) {
     }
 }
 
-export default rootReducer;
+export default currentGameReducer;

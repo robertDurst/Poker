@@ -44,7 +44,7 @@
     "ip": "^1.1.5",
     "material-ui": "^0.20.0",
     "mocha": "^4.0.1",
-    "ngrok": "^2.2.24",
+    "ngrok": "file:ngrok",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.6",

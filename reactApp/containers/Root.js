@@ -6,7 +6,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const Landing = require('../components/Landing/Landing.js')
 import Lobby from '../components/Lobby/Lobby.js';
-const Gameroom = require('../components/Gameroom/Gameroom.js')
+import GameRoom from '../components/Gameroom/Gameroom.js';
 
 export default function Root({ store, history }) {
     return (
@@ -16,7 +16,7 @@ export default function Root({ store, history }) {
             <Switch>
               <Route exact path='/' component={Landing}/>
               <Route exact path='/lobby' render={()=><Lobby history={history}/>}/>
-              <Route exact path='/game' component={Gameroom}/>
+              <Route exact path='/game' render={()=><GameRoom history={history}/>}/>
             </Switch>
           </HashRouter>
         </MuiThemeProvider>

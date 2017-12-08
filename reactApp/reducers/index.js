@@ -5,7 +5,7 @@ import currentGameReducer from './currentGameReducer';
 import socketReducer from './socketReducer';
 
 const indexReducer = combineReducers({
-  currentGame: currentGameReducer,
+  gameState: currentGameReducer,
   socket: socketReducer,
   rootReducer
 });

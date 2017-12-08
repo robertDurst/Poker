@@ -1,5 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router-dom';
+import { connect } from 'react-redux';
 //Components
 import Table from './Table.js';
 import Pot from './Pot.js';
@@ -11,6 +12,9 @@ import styles from './Gameroom.css'
 class Game extends React.Component {
   constructor(props) {
     super(props)
+  }
+  componentDidMount() {
+
   }
   render() {
     return (
@@ -24,14 +28,14 @@ class Game extends React.Component {
       </div>
       <div className={styles.container_body}>
         <div className={styles.container_body_top}>
-          <Table />
+          <Table gameState={this.props.gameState}/>
         </div>
         <div className={styles.container_body_bottom}>
           <div className={styles.info_item}>
-            <Pot />
+            <Pot gameState={this.props.gameState}/>
           </div>
           <div className={styles.info_item}>
-            <Hand />
+            <Hand gameState={this.props.gameState}/>
           </div>
           <div className={styles.info_item}>
             <ChoiceBox />
@@ -45,4 +49,17 @@ class Game extends React.Component {
   }
 }
 
-module.exports = Game
+const mapDispatchToProps = (dispatch) => {
+  return {
+    // onUserMadeMove: (move) => dispatch(userMadeMove(move)),
+  };
+};
+
+const mapStateToProps = (state) => {
+  return {
+    gameState: state.gameState,
+  }
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Game);
