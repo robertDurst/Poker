@@ -5,7 +5,7 @@ import { HashRouter, Route, Switch } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const Landing = require('../components/Landing/Landing.js')
-const Lobby = require('../components/Lobby/Lobby.js')
+import Lobby from '../components/Lobby/Lobby.js';
 const Gameroom = require('../components/Gameroom/Gameroom.js')
 
 export default function Root({ store, history }) {
@@ -15,7 +15,7 @@ export default function Root({ store, history }) {
           <HashRouter>
             <Switch>
               <Route exact path='/' component={Landing}/>
-              <Route exact path='/lobby' component={Lobby}/>
+              <Route exact path='/lobby' render={()=><Lobby history={history}/>}/>
               <Route exact path='/game' component={Gameroom}/>
             </Switch>
           </HashRouter>

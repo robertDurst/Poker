@@ -1,5 +1,6 @@
 const http = require('http');
 const socketIO = require('socket.io');
+let gameState = require('./gameState/GameState');
 
 let server;
 let io;
@@ -18,6 +19,7 @@ function startServer() {
 
     io.on('connection', (socket) => {
       connections ++;
+      socket.emit("GAME_UPDATE", gameState);
     });
 }
 

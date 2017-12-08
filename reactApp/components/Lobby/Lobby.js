@@ -2,6 +2,8 @@ const React = require('react')
 const {Link} = require('react-router-dom');
 const axios = require('axios');
 const io = require('socket.io-client');
+import { connect } from 'react-redux';
+import { socketConnect } from '../../actions/index';
 
 import GameRoomTable from './GameRoomTable';
 import { RaisedButton } from 'material-ui';
@@ -54,8 +56,7 @@ class Lobby extends React.Component {
 
      window.location.hash = '/game'
 
-     let socket = io(this.state.curGame.external_ip);
-     console.log(socket);
+     this.props.socketConnectionMade(io(this.state.curGame.external_ip));
    }
 
    componentDidMount() {
@@ -141,4 +142,10 @@ class Lobby extends React.Component {
   }
 }
 
-module.exports = Lobby
+const mapDispatchToProps = (dispatch) => {
+  return {
+    socketConnectionMade: (socket) => dispatch(socketConnect(socket)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Lobby);

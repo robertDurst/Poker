@@ -40,12 +40,11 @@
   "dependencies": {
     "axios": "^0.17.1",
     "chai": "^4.1.2",
-    "child_process": "^1.0.2",
     "express": "^4.15.3",
     "ip": "^1.1.5",
-    "localtunnel": "^1.8.3",
     "material-ui": "^0.20.0",
     "mocha": "^4.0.1",
+    "ngrok": "^2.2.24",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.6",
