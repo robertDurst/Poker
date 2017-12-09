@@ -5,6 +5,7 @@ module.exports = class Game {
   constructor() {
     this.deck = new Deck();
     this.pot = [];
+    this.potTotal = 0;
     this.spread = [];
     this.folded = [];
     this.state = 0;

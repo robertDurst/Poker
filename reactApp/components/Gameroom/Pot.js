@@ -11,8 +11,9 @@ class Pot extends React.Component {
     return (<div className={styles.choice_box_overall}>
       <h1>
         Pot
+        There is {this.props.gameState.potTotal} in the pot.
       </h1>
-      There is {this.props.gameState.getPotValue ? this.props.gameState.getPotValue() : 0} in the pot.</div>)
+      </div>)
   }
 }
 

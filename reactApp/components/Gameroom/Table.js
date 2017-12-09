@@ -31,7 +31,9 @@ class Table extends React.Component {
         retStr = value.toString();
     }
 
-    return retStr + suite[0];
+    retStr = retStr + suite[0];
+    // console.log(retStr);
+    return retStr;
   }
 
   render() {
