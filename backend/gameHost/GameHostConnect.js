@@ -17,7 +17,7 @@ function disconnect() {
   hostServer.closeServer();
 }
 
-async function connect(gameName) {
+function connect(gameName) {
   hosting = true;
   let game = hostServer.startServer();
   ngrok.kill();

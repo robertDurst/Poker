@@ -6,6 +6,7 @@ import { render } from 'react-dom';
 import { configureStore, history, store } from './store/configureStore';
 import Root from './containers/Root';
 
+console.log("HERE");
 
 render(
    <Root store={store} history={history} />,

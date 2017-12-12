@@ -65,7 +65,7 @@ class Lobby extends React.Component {
        .then( x => this.setState({
          hostedGames: x.data
        }))
-       .catch( err => console.log(err))
+       .catch( err => console.log("err", err))
      }, 1000)
 
    }
