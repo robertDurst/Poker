@@ -31,7 +31,9 @@ class Table extends React.Component {
         retStr = value.toString();
     }
 
-    return retStr + suite[0];
+    retStr = retStr + suite[0];
+    // console.log(retStr);
+    return retStr;
   }
 
   render() {
@@ -40,7 +42,7 @@ class Table extends React.Component {
       <div className={styles.Table_player_bar}>
         {
           this.props.gameState.players ? this.props.gameState.players.map( player => {
-            return <Player  name={player.pubKey} key={player.pubKey} />
+            // return <Player  name={player.pubKey} key={player.pubKey} />
           }) : <div></div>
         }
       </div>

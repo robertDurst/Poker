@@ -33,7 +33,8 @@ function incrementState() {
 
 // Takes in an amount and returns a Bet object.
 function makeBet(player, amount) {
-    return new Bet(player, amount);
+    this.potTotal += amount;
+    this.pot.push(new Bet(player, amount));
 }
 
 /*

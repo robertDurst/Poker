@@ -27,6 +27,7 @@ async function connect(gameName) {
       internal_ip: ip.address(),
       game_name: gameName,
       external_ip: url,
+      game_socket_ip: url,
       activePlayers: game.gameState.players.length,
     })
   });

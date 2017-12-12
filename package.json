@@ -12,7 +12,8 @@
     "prodWebpack": "webpack -p",
     "start": "electron main.js",
     "server": "node backend/server.js",
-    "testGame": "mocha backend/gameState/test/test.js"
+    "testGame": "mocha backend/gameState/test/test.js",
+    "testGame-rework": "mocha backend/gameHost/gameState-rework/test/test.js"
   },
   "repository": "",
   "keywords": [],
