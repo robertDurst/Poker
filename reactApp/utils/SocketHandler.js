@@ -11,4 +11,8 @@ export default (socket) => {
     console.log('HOST LOG:',data);
   })
 
+  socket.on('REQUEST_ACTION', () => {
+    console.log("MAKE CHOICE");
+  })
+
 }

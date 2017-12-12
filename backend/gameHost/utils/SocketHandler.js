@@ -1,9 +1,8 @@
 let SocketHandler = (io, game) => {
 
   let counter = 0;
-  let GLOBALsocket
+  let bettingRound;
   io.on('connection', (socket) => {
-    GLOBALsocket = socket;
     game.gameState.addPlayer('Player ' + counter, socket)
     counter++;
     sendUpdate();
@@ -11,12 +10,12 @@ let SocketHandler = (io, game) => {
     socket.on('CHECK', (data) => {
       sendUpdate()
     })
-
     socket.on('START_GAME', (data) => {
       game.gameState.dealCards()
       game.gameState.incrementState()
       sendUpdate()
     })
+
     socket.on('DEAL', (data) => {
       game.gameState.addCardToSpread(game.gameState.deck.cards.pop());
       game.gameState.addCardToSpread(game.gameState.deck.cards.pop());
@@ -24,18 +23,39 @@ let SocketHandler = (io, game) => {
       game.gameState.incrementState()
       sendUpdate()
     })
-    socket.on('BET', (data) => {
-      game.gameState.makeBet('Nate', 42)
-      game.gameState.incrementState()
-      sendUpdate()
+    socket.on('START_BETTING', (data) => {
+      bettingRound = {};
+      bettingRound['players'] = {}
+      bettingRound["order"] = game.gameState.players.map(p => {
+        bettingRound.players[p.socketId]
+        return p.socketId
+      })
+      bettingRound['index'] = 0;
+      bettingRound['origin'] = bettingRound.order[0];
+      io.socket.io.sockets.socket(bettingRound[bettingRound.index].socketId).emit("REQUEST_ACTION")
+    })
+    socket.on('BET', data => {
+      handleAction(bettingRound, data)
+    })
+    socket.on('FOLD', data => {
+      handleAction(bettingRound, data)
+    })
+    socket.on('CALL', data => {
+      handleAction(bettingRound, data)
     })
 
+    // socket.on('BET', (data) => {
+    //   game.gameState.makeBet('Nate', 42)
+    //   game.gameState.incrementState()
+    //   sendUpdate()
+    // })
   });
 
   function sendUpdate() {
     Object.keys(io.sockets.sockets).forEach(id => {
       const totalState = game.gameState;
       let customState = {
+        socketId: id,
         pot: totalState.pot,
         potTotal: totalState.potTotal,
         spread: totalState.spread,
@@ -43,14 +63,41 @@ let SocketHandler = (io, game) => {
         folded: totalState.folded,
         winner: totalState.winner,
         dealer: totalState.dealer,
-        players: totalState.players.map(x => x.pubKey),
+        players: totalState.players.map(x => {
+          x.pubKey
+        }),
         player_hand: totalState.players.filter(x => id === x.socketId)
       };
       io.sockets.sockets[id].emit("GAME_UPDATE", customState);
       io.sockets.sockets[id].emit("LOG", customState);
     })
   }
+  function testServer(socket) {
+    Object.keys(io.sockets.sockets).forEach(id => {
+      requestChoice(socket, id)
+    })
+  }
+  function handleAction(bettingRound, data) {
+    if (bettingRound.order[bettingRound.index % bettingRound.order.length]) {
+      return bettingRound
+    } else {
 
+    }
+    switch (data.action) {
+      case "BET":
+        bettingRound.pot += data.amount
+        bettingRound.origin = data.socketId
+        break;
+      case "CALL":
+        bettingRound.index++
+        break;
+      case "FOLD":
+        bettingRound.players[data.socketId].folded = true;
+        break;
+      default:
+
+    }
+  }
   //   playGame();
   //
   //      io.emit("GAME_UPDATE", game.gameState);
