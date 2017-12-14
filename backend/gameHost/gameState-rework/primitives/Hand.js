@@ -4,6 +4,7 @@ const handActions = require('../utils/handActions');
 module.exports = class Hand {
   constructor() {
     //Hand Info
+    this.isPlaying = true;
     this.state = 0;
     this.dealer = undefined;
     this.pot = 0;
@@ -13,5 +14,7 @@ module.exports = class Hand {
     //Cards
     this.deck = new Deck();
     this.spread = [];
+    //Callback fn
+    this.callback = undefined
   }
 }

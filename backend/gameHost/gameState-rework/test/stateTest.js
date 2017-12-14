@@ -141,13 +141,15 @@ describe('Advance basic states', function() {
 })
 describe('Betting Round Basics', function() {
   let game, game2, value = 0, players = [1,2,3], dummy;
-  before(function() {
+  beforeEach(function() {
     game = new Game('thisName','thatURL')
     game.addPlayer(1)
     game.addPlayer(2)
     game.addPlayer(3)
     game.makeHost(1)
     game.startHand()
+    game.startRound()
+    value = 0
     game2 = new Game('thisName','thatURL')
     game2.addPlayer(1)
     game2.addPlayer(2)
@@ -156,9 +158,6 @@ describe('Betting Round Basics', function() {
     game2.startHand()
   })
   it('Should be able to start a betting round with correct values initialized',function() {
-    game.startRound(() => {
-
-    })
     assert.equal(!!game.round,true)
     assert.equal(game.round.origin,1)
     assert.equal(game.round.active,1)
@@ -225,41 +224,35 @@ describe('Betting Round Basics', function() {
     game.bet(1, () => {
       value++
     }, 5)
-    game.call(2, () => {
+    game.fold(2, () => {
       value++
     })
-    assert.equal(game.round.pot, 10)
-    game.fold(3, (id) => {
-      value++
-    })
-    assert.equal(game.round.active, 1, 'order change')
-    assert.equal(game.round.pot, 10, 'pot stay same')
-    assert.equal(value, 3, 'callback')
-    for (var i = 0; i < players.length; i++) {
-      assert.equal(game.hand.order[i],[1,2][i])
-    }
+    assert.equal(game.round.active, 3, 'order change')
+    assert.equal(game.round.pot, 5, 'pot stay same')
+    assert.equal(value, 2, 'callback')
   })
   it('Order, pot and bets have all been modified by bet, call, fold actions', function() {
+    game.fold(1,null)
+    game.bet(2,null,5)
+    game.bet(3,null,10)
     for (var i = 0; i < 2; i++) {
-      assert.equal(game.hand.order[i],[1,2][i], 'correct order')
+      assert.equal(game.hand.order[i],[2,3][i], 'correct order')
     }
-    assert.equal(game.bets[0][1], 5, 'Correct bet')
+    assert.equal(game.bets[0][1], 0, 'Correct bet')
     assert.equal(game.bets[0][2], 5, 'Correct bet')
-    assert.equal(game.bets[0][3], 0, 'Correct bet')
+    assert.equal(game.bets[0][3], 10, 'Correct bet')
 
   })
-  it('Round End Check should return true if round over.', function() {
-    assert.equal(game.roundEndCheck(),true)
-  })
   it('Round can be ended', function() {
-    game.round.callback = () => {}
+    game.fold(1,null)
+    game.fold(2,null)
     assert.isFunction(game.resolveRound)
     game.resolveRound()
-    assert.equal(game.hand.pot,10,'pot size')
+    assert.equal(game.round.isBetting,false)
   })
 })
 describe('Automatic Round Resolution' ,function() {
-  let game, addValue=()=>{value++}, value;
+  let game, addValue=()=>{value++}, value, complete = false;
   beforeEach(function() {
     game = new Game('BOB','bob.com')
     game.addPlayer(1)
@@ -268,15 +261,76 @@ describe('Automatic Round Resolution' ,function() {
     game.makeHost(1)
     game.startHand()
     game.startRound(() => {
-
+      complete = true
     })
     value = 0
   })
   it('Ends after all calls', function() {
     game.call(1)
     game.call(2)
-    assert()
+    assert.equal(game.round.isBetting, true)
     game.call(3)
+    assert.equal(game.round.isBetting, false)
+  })
+  it('Ends after bets and then only calls', function() {
+    game.bet(1,null,3)
+    game.bet(2,null,10)
+    game.call(3)
+    assert.equal(game.round.isBetting, true)
+    game.call(1)
+    assert.equal(game.round.isBetting, false)
+  })
+  it('Ends after fold and then only calls', function() {
+    game.fold(1,null)
+    game.bet(2,null,10)
+    assert.equal(game.round.isBetting, true)
+    game.call(3)
+    assert.equal(game.round.isBetting, false)
+  })
+  it('Ends after folds down to a single player', function() {
+    assert.equal(game.round.isBetting, true)
+    game.fold(1,addValue)
+    game.fold(2,addValue)
+    assert.equal(game.round.isBetting, false)
+  })
+  it('Ends after folds after round of betting', function() {
+    assert.equal(game.round.isBetting, true)
+    game.bet(1,null,6)
+    game.bet(2,null,7)
+    game.bet(3,null,8)
+    game.bet(1,null,10)
+    game.fold(2,addValue)
+    assert.equal(game.round.isBetting, true)
+    game.fold(3,addValue)
+    assert.equal(game.round.isBetting, false)
+  })
+  it('Can handle a bet call fold to end hand', function() {
+    assert.equal(game.round.isBetting, true)
+    game.bet(1,null,6)
+    game.call(2,null)
+    game.fold(3,null)
+    assert.equal(game.round.isBetting, false)
+  })
+  it('Can handle a bet bet fold that doesn\'t end hand', function() {
+    assert.equal(game.round.isBetting, true)
+    game.bet(1,null,5)
+    game.bet(2,null, 10)
+    game.fold(3,null)
+    game.bet(1,null,10)
+    game.bet(2,null, 10)
+    assert.equal(game.round.isBetting, true)
+  })
+  it('Calls the hand callback at the round ending ' , function() {
+    game.fold(1,null)
+    game.fold(2,null)
+    assert.isTrue(complete)
+  })
+  it('Calls only the last action callback at the round ending ' , function() {
+    game.fold(1,addValue)
+    game.fold(2,addValue)
+    game.fold(3,addValue)
+    assert.isTrue(complete)
+    assert.equal(value,2)
   })
 })
 describe('Betting Round Edge Cases', function() {
@@ -289,7 +343,6 @@ describe('Betting Round Edge Cases', function() {
     game.makeHost(1)
     game.startHand()
     game.startRound(() => {
-
     })
     value = 0
   })
@@ -361,8 +414,8 @@ describe('Betting Round Edge Cases', function() {
     game.call(3,addValue)
     assert.equal(value, 6, 'value')
     assert.equal(game.bets[0][2], 15)
-    assert.equal(game.round.pot, 45, 'round pot')
-    assert.equal(game.hand.pot,45,'hand pot')
+    assert.equal(game.round.pot, 0, 'round pot')
+    assert.equal(game.hand.pot, 45,'hand pot')
   })
   it('Calling while doing so would exceed your balance does nothing', function() {
     game.players[2].balance = 5
@@ -371,11 +424,47 @@ describe('Betting Round Edge Cases', function() {
     assert.equal(value,1,'value')
     assert.equal(game.bets[0][2], 0)
   })
-
   it('Folding as the last remaining player does nothing', function() {
     game.fold(1,addValue)
     game.fold(2,addValue)
     game.fold(3,addValue)
     assert.equal(value,2)
   })
+})
+describe('Scoring', function() {
+  let game, addValue=()=>{value++}, value;
+  beforeEach(function() {
+    game = new Game('BOB','bob.com')
+    game.addPlayer(4)
+    game.addPlayer(5)
+    game.addPlayer(6)
+    game.makeHost(4)
+    game.startHand()
+    game.nextHandState()
+    game.nextHandState()
+    game.nextHandState()
+    game.startRound()
+    value = 0;
+  })
+  it('getWinnerIndex is function', function() {
+    assert.isFunction(game.getWinnerIndex)
+  })
+  it('buildHands returns arrays for each player with 7 cards each', function() {
+    assert.isFunction(game.buildHands)
+    const hands = game.buildHands();
+    const numHandsCheck = hands.length === 3;
+    const numCardsCheck = hands.every( (hand) => {
+      return hand.length === 7
+    })
+    assert.isTrue(numHandsCheck)
+    assert.isTrue(numCardsCheck)
+  });
+  it('getWinner returns index array', function() {
+    const winnerIndex = game.getWinnerIndex(game.buildHands())
+    assert.isArray(winnerIndex);
+  });
+  it('getWinningID returns ID', function() {
+    const winningID = game.getWinningID()
+    assert.isArray(winningID);
+  });
 })
