@@ -7,12 +7,11 @@ module.exports = class Hand {
     this.state = 0;
     this.dealer = undefined;
     this.pot = 0;
-    this.order = [];
     this.winner = undefined;
+    //Alterable Order for turn order
+    this.order = [];
     //Cards
     this.deck = new Deck();
     this.spread = [];
-
-    this.nextState = gameAction.isFolded;
   }
 }
